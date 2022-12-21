@@ -1,11 +1,9 @@
 import { useNavigation } from "@react-navigation/native";
 import { StatusBar } from "expo-status-bar";
-import { Text } from "react-native";
-import { Button } from "native-base";
+import { Box, Button, Text, View } from "native-base";
 import useAdoptions from "../../hooks/use-adoptions";
 import Routes from "../../routes";
 import client from "../../services/http-client";
-import { Adoption, Container } from "./home.styles";
 
 export default function Home() {
   const navigation = useNavigation();
@@ -13,7 +11,7 @@ export default function Home() {
   const { adoptions, isLoading } = useAdoptions();
 
   return (
-    <Container>
+    <View margin={8} flex="1">
       <StatusBar style="auto" />
       <Text>{client.defaults.baseURL}</Text>
       <Text>Adoptions demo</Text>
@@ -27,7 +25,7 @@ export default function Home() {
       </Button>
       {isLoading && <Text>Loading...</Text>}
       {adoptions && (
-        <Adoption>
+        <Box>
           {adoptions.map((adoption) => {
             const { name, gender, size } = adoption;
 
@@ -39,8 +37,8 @@ export default function Home() {
               </>
             );
           })}
-        </Adoption>
+        </Box>
       )}
-    </Container>
+    </View>
   );
 }
