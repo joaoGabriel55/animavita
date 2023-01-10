@@ -1,0 +1,28 @@
+name: Run backend tests
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  run-e2e:
+    runs-on: ubuntu-latest
+    env:
+      JWT_ACCESS_SECRET: ntxrNROULC23kz95igkbulmxuRQhnLYe9tt46Fk2mTs=
+      JWT_REFRESH_SECRET: bmp1tdFjGbq3SGXiH2lzarbJbfEziveC8wuO1e_wnIc
+    steps:
+      - name: 🏗 Setup repository
+        uses: actions/checkout@v3
+
+      - name: 🏗 Setup monorepo
+        uses: ./.github/actions/setup-monorepo-for-backend
+        with:
+          expo-token: ${{ secrets.EXPO_TOKEN }}
+
+      - name: Run backend e2e tests
+        working-directory: apps/backend
+        run: pnpm run test:e2e
