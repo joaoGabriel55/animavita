@@ -6,12 +6,15 @@
 
 ### Pre-requisites
 
+- Linux based distro or MacOS (we don't recommend Windows due to compatibility issues)
 - _Node:_ `16.17.1` or higher.
 - _Npm:_ `7.5.2` or higher.
 
 ### Getting started
+> The `master` and `next` are stale branches, please do not use them.
+>
 
-Fork the project, then clone it:
+Fork the project, then clone it. Make sure you're cloning v2 branch:
 
 ```sh
 git clone --branch v2 git@github.com:[your-github-user]/animavita.git
@@ -24,6 +27,12 @@ Install dependencies:
 $ pnpm install
 ```
 
+In order to reflect the changes made in the shared packages to the mobile app, you must run:
+
+```sh
+$ pnpm shared:watch
+```
+
 ### Running the infra & backend with docker
 
 We have a `docker-compose` file that sets up a mongodb database and the backend app for you. Just run:
@@ -31,6 +40,8 @@ We have a `docker-compose` file that sets up a mongodb database and the backend 
 ```sh
 $ docker-compose up -d
 ```
+
+> Keep in mind if you change the shared packages you must rebuild the docker image.
 
 ### Running without docker
 
@@ -43,24 +54,16 @@ $ cp apps/backend/.env.example apps/backend/.env
 Then, run the app:
 
 ```sh
-$ pnpm --filter backend start
+$ pnpm backend start
 ```
 
 ### Running the mobile app
 
-Build the shared packages:
-
-```sh
-$ pnpm --filter "./shared/**" run build
-
-// Be aware that whenever you make a change on shared packages
-// you must rebuild it. We are going to automate this soon.
-```
 
 Then, run the app:
 
 ```sh
-$ pnpm --filter mobile start
+$ pnpm mobile start
 ```
 
 ### Sending a pull request
